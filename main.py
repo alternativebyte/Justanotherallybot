@@ -1,4 +1,3 @@
-# roblox ally bot made by outdateddev on github
 import string
 import requests
 from random import randint, choice
@@ -6,7 +5,6 @@ import time
 import threading
 import os
 import sys
-from discord import Webhook
 import aiohttp
 
 from dotenv import load_dotenv
@@ -19,7 +17,6 @@ allies = os.getenv('TYPE')
 delay = os.getenv('DELAY')
 threads = os.getenv('THREADS')
 type = os.getenv('TYPE')
-webhook = os.getenv('WEBHOOK')
 
 if cookie == "":
     print("Please set .roblosecurity cookie in .env file (COOKIE)")
@@ -30,8 +27,6 @@ if group == "":
 if delay == None:
     print("Delay not set, defaulting to 5 seconds.")
     delay = 5
-if webhook == "":
-    print("Webhook not set, not sending webhook.")
 if threads == None:
     print("Threads not set, defaulting to 1 thread")
     threads = 1
@@ -42,7 +37,7 @@ if type not in ['allies', 'enemies']:
 def groupally():
     while True:
         try:
-            randint(15900000, 16010000)
+            random = randint(15000000, 16010000)
             cookies = {'.ROBLOSECURITY': cookie}
 
             gathtoken = requests.post(
@@ -52,54 +47,25 @@ def groupally():
             headers = {'x-csrf-token': token}
 
             sendally = requests.post(
-                f'https://groups.roblox.com/v1/groups/{group}/relationships/{allies}/{randomid}', headers=headers, cookies=cookies)
+                f'https://groups.roblox.com/v1/groups/{group}/relationships/{allies}/{random}', headers=headers, cookies=cookies)
 
             if sendally.status_code == 200:
-                print(f'Ally sent to {randomid} | ')
+                print(f'Ally sent to {random} | ')
             elif sendally.status_code == 429:
                 print('Rate limited')
+                time.sleep(5)
             else:
-                print(f'Failed to send {allies} request to {randomid}')
+                print(f'Failed to send {allies} request to {random}')
         except:
-            print('Error')
+            print(f'Error')
         time.sleep(int(delay))
 
 def main():
-    print("""\
-
-                ________          __ ________               
-                \_____  \  __ ___/  |\______ \   _______  __
-                 /   |   \|  |  \   __\    |  \_/ __ \  \/ /
-                /    |    \  |  /|  | |    `   \  ___/\   / 
-                \_______  /____/ |__|/_______  /\___  >\_/  
-                        \/                   \/     \/     
-
-
-                    """)
-    print("""\
-
-                  /$$$$$$  /$$ /$$                 /$$$$$$$              /$$    
-                 /$$__  $$| $$| $$                | $$__  $$            | $$    
-                | $$  \ $$| $$| $$ /$$   /$$      | $$  \ $$  /$$$$$$  /$$$$$$  
-                | $$$$$$$$| $$| $$| $$  | $$      | $$$$$$$  /$$__  $$|_  $$_/  
-                | $$__  $$| $$| $$| $$  | $$      | $$__  $$| $$  \ $$  | $$    
-                | $$  | $$| $$| $$| $$  | $$      | $$  \ $$| $$  | $$  | $$ /$$
-                | $$  | $$| $$| $$|  $$$$$$$      | $$$$$$$/|  $$$$$$/  |  $$$$/
-                |__/  |__/|__/|__/ \____  $$      |_______/  \______/    \___/  
-                                   /$$  | $$                                    
-                                  |  $$$$$$/                                    
-                                   \______/                                     
-
-
-                    """)
-    print(f"Starting {threads} threads")
-    print()
+    print("Forked off of https://github.com/BananaJeanss/roblox-ally-bot-outdev")
+    print("Working as of 05/01/2025")
     time.sleep(0.5)
-    print(f"Delay: {delay}")
-    print(f"Type: {type}")
-    print(f"Group: {group}")
+    print("Starting in 1 second.")
     time.sleep(1)
-    print()
     for i in range(int(threads)):
         t = threading.Thread(target=groupally)
         t.start()
